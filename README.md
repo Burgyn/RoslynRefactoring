@@ -1,7 +1,7 @@
 # RoslynRefactoring
-This repository will be contains roslyn refactoring tools.
+This repository will be contain roslyn refactoring tools.
 
 
 First one is **Introduce private field**.
 
-Which help you introduce and initialize private field by constructor parameter.
+Which helps you introduce and initialize private field from constructor parameter.
