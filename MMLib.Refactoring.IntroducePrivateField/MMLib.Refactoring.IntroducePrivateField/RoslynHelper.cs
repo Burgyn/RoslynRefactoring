@@ -29,9 +29,23 @@ namespace MMLib.Refactoring.IntroducePrivateField
                 .ValueText;
         }
 
+        public static string GetParameterType(Microsoft.CodeAnalysis.VisualBasic.Syntax.ParameterSyntax parameter)
+        {
+            return parameter
+                .DescendantNodes()
+                .First(node => node is Microsoft.CodeAnalysis.VisualBasic.Syntax.PredefinedTypeSyntax || node is Microsoft.CodeAnalysis.VisualBasic.Syntax.IdentifierNameSyntax)
+                .GetFirstToken()
+                .ValueText;
+        }
+
         public static string GetParameterName(ParameterSyntax parameter)
         {
             return parameter.DescendantTokens().Where(t => t.IsKind(SyntaxKind.IdentifierToken)).Last().ValueText;
+        }
+
+        public static string GetParameterName(Microsoft.CodeAnalysis.VisualBasic.Syntax.ParameterSyntax parameter)
+        {
+            return parameter.DescendantTokens().FirstOrDefault(t => t.IsKind(Microsoft.CodeAnalysis.VisualBasic.SyntaxKind.IdentifierToken)).Text;
         }
 
         public static FieldDeclarationSyntax CreateFieldDeclaration(string type, string name)
@@ -40,6 +54,6 @@ namespace MMLib.Refactoring.IntroducePrivateField
                 SyntaxFactory.VariableDeclaration(SyntaxFactory.IdentifierName(type))
                 .WithVariables(SyntaxFactory.SingletonSeparatedList(SyntaxFactory.VariableDeclarator(SyntaxFactory.Identifier(name)))))
                 .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PrivateKeyword), SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword)));
-        }
+        }        
     }
 }
